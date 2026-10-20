@@ -1,41 +1,23 @@
-"""Small standard-library HTTP service for practicing DevOps core concepts.
-
-Run: python app/main.py
-Routes:
-  GET /          -> JSON welcome response
-  GET /health    -> JSON health response
-  GET /version   -> JSON application version
-"""
-import json
+"""Run the Week 3 practice service with: python -m app.main"""
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
-APP_VERSION = "2.0.0"
+from app.service import response_for_path, json_bytes
 
 class Handler(BaseHTTPRequestHandler):
-    def _send_json(self, status_code, payload):
-        body = json.dumps(payload).encode("utf-8")
-        self.send_response(status_code)
+    def do_GET(self):
+        status, payload = response_for_path(self.path)
+        body = json_bytes(payload)
+        self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
-
-    def do_GET(self):
-        if self.path == "/":
-            self._send_json(200, {"message": "Hello, DevOps!", "version": APP_VERSION})
-        elif self.path == "/health":
-            self._send_json(200, {"status": "ok", "version": APP_VERSION})
-        elif self.path == "/version":
-            self._send_json(200, {"version": APP_VERSION})
-        else:
-            self._send_json(404, {"error": "not_found", "path": self.path})
 
     def log_message(self, format, *args):
         print("%s - %s" % (self.address_string(), format % args))
 
 if __name__ == "__main__":
     server = HTTPServer(("127.0.0.1", 8000), Handler)
-    print("DevOps practice service listening at http://127.0.0.1:8000")
+    print("Week 3 practice service listening at http://127.0.0.1:8000")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

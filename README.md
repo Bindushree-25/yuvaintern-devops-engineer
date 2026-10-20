@@ -1,33 +1,36 @@
-# YuvaIntern DevOps — Week 2: Core Concepts and Skills
+# Week 3 — Practical Implementation Project
 
-This small Python HTTP service is a practice artifact for learning application structure, HTTP routes/status codes, health checks, versioning, manual test planning, and a basic Git change workflow.
+This folder contains a small Python HTTP service and automated unit tests. It is designed to demonstrate practical implementation, separation of concerns, repeatable tests, and a basic local development workflow.
 
 ## Requirements
-- Python 3.9+ (uses only the Python standard library)
-- Git and a GitHub account for version control
+- Python 3.9 or later
+- No third-party packages required
 
-## Run locally
-From the project root:
+## Run automated tests
+From this folder (`week3-practical-implementation`):
 
 ```bash
-python app/main.py
+python -m unittest discover -s tests -v
 ```
 
-Then open `http://127.0.0.1:8000/`, or use `curl` from a second terminal. Stop the service with Ctrl+C.
+The suite contains five unit tests covering the root, health, version, unknown-route, and JSON-serialization behavior. The expected result is five passing tests; record the actual result only after running the command.
 
-## Routes
-- `GET /` — welcome message and version
-- `GET /health` — basic health response
-- `GET /version` — version response
-- Any other path — JSON 404 response
+## Run the service
+From this folder:
 
-## Test plan
-See [`tests/manual_test_plan.md`](tests/manual_test_plan.md). The table lists expected behavior; update the evidence log with actual results from your own machine. Do not report a check as passed until you have run it.
+```bash
+python -m app.main
+```
 
-## Suggested Git workflow
-1. Add these files to the existing `yuvaintern-devops-engineer` repository.
-2. Review the changed files before committing.
-3. Commit with a descriptive message such as `Add Week 2 DevOps core concepts service`.
-4. Push/upload the changes to GitHub and confirm the files are visible.
+Open `http://127.0.0.1:8000/`, `/health`, or `/version`. Press Ctrl+C to stop the service. If port 8000 is already in use, stop the conflicting process or consistently change the port in `app/main.py`.
 
-This project is a learning example, not a production-ready service. It binds to localhost, uses the built-in HTTP server, and has no authentication, TLS, external monitoring, or automated CI pipeline.
+## Structure
+- `app/service.py` — route decisions and JSON serialization
+- `app/main.py` — HTTP server adapter
+- `tests/test_service.py` — automated unit tests
+
+## Scope and limitations
+This is a learning example using Python's built-in HTTP server. It is not production hardened and does not include authentication, TLS, containerization, external monitoring, or a CI pipeline. Tests cover the route-decision function and serialization, not a full live-server integration test.
+
+## Existing GitHub repository
+Add this entire `week3-practical-implementation` folder to the existing `yuvaintern-devops-engineer` repository. Keep the Week 1 and Week 2 files intact. Suggested commit message: `Add Week 3 practical implementation and unit tests`.
