@@ -1,11 +1,12 @@
-"""Run the Week 3 practice service with: python -m app.main"""
+"""Run with: python -m app.main"""
+import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from app.service import response_for_path, json_bytes
+from app.service import response_for_path
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         status, payload = response_for_path(self.path)
-        body = json_bytes(payload)
+        body = json.dumps(payload).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -17,7 +18,7 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = HTTPServer(("127.0.0.1", 8000), Handler)
-    print("Week 3 practice service listening at http://127.0.0.1:8000")
+    print("Week 4 QA practice service listening at http://127.0.0.1:8000")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

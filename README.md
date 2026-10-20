@@ -1,36 +1,33 @@
-# Week 3 — Practical Implementation Project
+# Week 4 — Testing and Quality Assurance
 
-This folder contains a small Python HTTP service and automated unit tests. It is designed to demonstrate practical implementation, separation of concerns, repeatable tests, and a basic local development workflow.
+A small Python service used to demonstrate positive tests, negative tests, boundary/contract validation, test documentation, and repeatable QA.
 
 ## Requirements
-- Python 3.9 or later
-- No third-party packages required
+Python 3.9+; no third-party packages required.
 
-## Run automated tests
-From this folder (`week3-practical-implementation`):
+## Run tests
+From this folder:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The suite contains five unit tests covering the root, health, version, unknown-route, and JSON-serialization behavior. The expected result is five passing tests; record the actual result only after running the command.
+Eight tests are included. Run them and record the actual output; the count is an expected suite size, not proof that tests passed in your environment.
 
-## Run the service
-From this folder:
-
+## Run service
 ```bash
 python -m app.main
 ```
-
-Open `http://127.0.0.1:8000/`, `/health`, or `/version`. Press Ctrl+C to stop the service. If port 8000 is already in use, stop the conflicting process or consistently change the port in `app/main.py`.
+Then visit `http://127.0.0.1:8000/`, `/health`, and `/version`. Stop with Ctrl+C.
 
 ## Structure
-- `app/service.py` — route decisions and JSON serialization
+- `app/service.py` — route logic and basic response-contract validation
 - `app/main.py` — HTTP server adapter
-- `tests/test_service.py` — automated unit tests
+- `tests/test_service.py` — automated tests
+- `tests/TEST_CASES.md` — test cases and QA plan
+- `TEST_EVIDENCE.md` — record actual results and any defect/fix cycle
 
-## Scope and limitations
-This is a learning example using Python's built-in HTTP server. It is not production hardened and does not include authentication, TLS, containerization, external monitoring, or a CI pipeline. Tests cover the route-decision function and serialization, not a full live-server integration test.
+## Limitations
+This is a learning project, not production QA. It does not include load testing, security testing, a live-server integration suite, external monitoring, or CI automation. The contract validator is intentionally small and is not a complete HTTP schema validator.
 
-## Existing GitHub repository
-Add this entire `week3-practical-implementation` folder to the existing `yuvaintern-devops-engineer` repository. Keep the Week 1 and Week 2 files intact. Suggested commit message: `Add Week 3 practical implementation and unit tests`.
+Add this folder to the existing `yuvaintern-devops-engineer` GitHub repository without replacing earlier weeks.
